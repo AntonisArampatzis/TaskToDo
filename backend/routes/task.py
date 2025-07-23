@@ -26,3 +26,41 @@ def add_task():
     except Exception as e:
         print(f"Exception: {e}")
         return jsonify({"error": "Server error"}), 400
+    
+@task_bp.route('/get-tasks', methods=['GET'])
+def get_tasks():
+
+    try:
+        tasks = Tasks.query.all()
+
+        all_tasks =[
+             {
+            "task_id": str(task.task_id),
+            "task":task.task,
+            "created_at":task.created_at.isoformat()
+        }
+        for task in tasks
+        ]
+        
+
+        return jsonify({'all_tasks':all_tasks}),200
+    
+    except Exception as e:
+        print(f"Exception: {e}")
+        return jsonify({"error": "Server error"}), 400
+    
+@task_bp.route('/delete-task/<uuid:taskId>',methods=['DELETE'])
+def delete_task(taskId):
+
+    try:
+        delete_task = Tasks.query.filter_by(task_id=taskId).first() 
+        if not delete_task:
+            return jsonify({"error":"Task not found"}), 404
+        db.session.delete(delete_task)
+        db.session.commit()
+
+        return jsonify({"message":"Task deleted successfully"}), 200
+    
+    except Exception as e:
+        print(f"Delete Error: {e}")
+        return jsonify({"error": "Server error"}), 500

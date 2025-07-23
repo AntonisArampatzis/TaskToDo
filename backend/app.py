@@ -11,14 +11,14 @@ app = Flask(__name__)
 # Config
 dbName = 'TaskToDoDB'
 secret_key = 'PrdzVUXphvAlDtKZfgy'
-app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:35199935@localhost/{dbName}'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:353535@localhost/{dbName}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize db and migrate and set CORS
 from models import db
 db.init_app(app)
 migrate.init_app(app, db)  
-CORS(app)
+CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
 
 # Register blueprints
 from routes.task import task_bp

@@ -1,9 +1,10 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SubmitTaskFrom from "../Components/SubmitTaskForm";
 import TasksTable from "../Components/TasksTable";
 import { AllTasks } from "../Types/AllTasks";
+import SnackbarMessage from "../Components/SnackbarMessage";
 
 export default function Home() {
   const [task, setTask] = useState<string>("");
@@ -11,8 +12,12 @@ export default function Home() {
   const [allTasks, setAllTasks] = useState<AllTasks[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [message, setMessage] = useState<string>("");
+
   // Fetch All Tasks from DB
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
+    // useCallback memoizes the function so it's not recreated on every render.
+    // This prevents unnecessary re-renders in child components receiving it as a prop.
     try {
       setLoading(true);
       const response = await axios.get("http://127.0.0.1:5000/task/get-tasks", {
@@ -26,7 +31,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchTasks();
@@ -44,8 +49,11 @@ export default function Home() {
       );
       console.log("Posting task...waiting response");
       console.log(response.data.message);
+      setMessage("Task Added");
       setTask("");
-      await fetchTasks();
+      setTimeout(() => {
+        fetchTasks();
+      }, 1500);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response?.status, error.message);
@@ -58,37 +66,69 @@ export default function Home() {
   return (
     <Container
       maxWidth="md"
-      sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        px: { xs: 2, sm: 3 },
+      }}
     >
       <Box
         sx={{
           display: "flex",
-          flexDirection: { xs: "column", md: "column" },
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
           gap: 4,
-          mt: 4,
-          minWidth: "800px",
+          width: "100%",
+          maxWidth: 800,
         }}
       >
-        <Typography>TO DO TASK APP</Typography>
+        <Typography
+          variant="h4"
+          color="common.white"
+          fontWeight={800}
+          textAlign="center"
+        >
+          TO DO TASK APP
+        </Typography>
 
-        <SubmitTaskFrom
-          task={task}
-          setTask={setTask}
-          handleSubmit={handleSubmit}
-        />
-
+        {/* Form box */}
         <Box
           sx={{
-            flex: { xs: "1 1 100%", md: "0 0 30%" },
+            width: "100%",
+            maxWidth: "100%",
             borderRadius: 3,
             boxShadow: 3,
             bgcolor: "background.paper",
-            p: { xs: 3, md: 4 },
+            p: { xs: 2, md: 4 },
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <SubmitTaskFrom
+            task={task}
+            setTask={setTask}
+            handleSubmit={handleSubmit}
+          />
+        </Box>
+
+        {/* Tasks table box */}
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "100%",
+            borderRadius: 3,
+            boxShadow: 3,
+            bgcolor: "background.paper",
+            p: { xs: 2, md: 4 },
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            minHeight: "",
+            minHeight: 400,
             gap: 3,
           }}
         >
@@ -96,8 +136,11 @@ export default function Home() {
             allTasks={allTasks}
             setAllTasks={setAllTasks}
             loading={loading}
+            fetchTasks={fetchTasks}
+            setMessage={setMessage}
           />
         </Box>
+        <SnackbarMessage message={message} />
       </Box>
     </Container>
   );

@@ -1,4 +1,4 @@
-from flask import Blueprint,jsonify,Flask,request
+from flask import Blueprint,jsonify,Flask,request # type: ignore
 from models.tasks import Tasks
 from models import db
 
@@ -35,9 +35,10 @@ def get_tasks():
 
         all_tasks =[
              {
-            "task_id": str(task.task_id),
+            "id": str(task.id),
             "task":task.task,
-            "created_at":task.created_at.isoformat()
+            "created_at":task.created_at.isoformat(),
+            "status": task.status
         }
         for task in tasks
         ]
@@ -53,7 +54,7 @@ def get_tasks():
 def delete_task(taskId):
 
     try:
-        delete_task = Tasks.query.filter_by(task_id=taskId).first() 
+        delete_task = Tasks.query.filter_by(id=taskId).first() 
         if not delete_task:
             return jsonify({"error":"Task not found"}), 404
         db.session.delete(delete_task)
@@ -64,3 +65,15 @@ def delete_task(taskId):
     except Exception as e:
         print(f"Delete Error: {e}")
         return jsonify({"error": "Server error"}), 500
+    
+
+@task_bp.route('/completed/<uuid:taskId>',methods=['PATCH'])
+def completed_task(taskId):
+
+    task = Tasks.query.get(taskId)
+    if not task:
+        return jsonify({"error":"Task not found"}), 404
+    
+    task.status = "Completed"
+    db.session.commit()
+    return jsonify({"message":"Task completed"}), 200

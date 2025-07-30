@@ -19,8 +19,6 @@ export default function SubmitTaskFrom({
       onSubmit={handleSubmit}
       sx={{
         flex: { xs: "1 1 100%", md: "0 0 30%" },
-        borderRadius: 3,
-        boxShadow: 3,
         bgcolor: "background.paper",
         p: { xs: 3, md: 4 },
         display: "flex",

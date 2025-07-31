@@ -23,7 +23,7 @@ cd TaskToDo
 ### 2. Backend Setup
 
 ```bash
-cd ../backend
+cd backend
 # Create virtual enviroment - optional but recommended
 python -m venv venv         
 # Activate virtual enviroment
@@ -62,7 +62,7 @@ CREATE DATABASE TaskToDoDB;
 ### 4. Frontend Setup
 
 ```bash
-cd frontend
+cd ../frontend
 npm install        
 npm run dev        
 ```

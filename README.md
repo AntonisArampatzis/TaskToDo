@@ -19,16 +19,8 @@ git clone https://github.com/AntonisArampatzis/TaskToDo.git
 cd TaskToDo
 ```
 ---
-### 2. Frontend Setup
 
-```bash
-cd frontend
-npm install        
-npm run dev        
-```
-##### Start the frontend dev server, runs on http://localhost:5173
----
-### 3. Backend Setup
+### 2. Backend Setup
 
 ```bash
 cd ../backend
@@ -46,6 +38,29 @@ flask run
 ```
 ##### Runs on http://127.0.0.1:5000
 ---
+### 3. PostgreSQL Setup
+- [PostgreSQL](https://www.postgresql.org/download/) (v13+ recommended)
+- A PostgreSQL user with a password
+- A database created for this project
+> ⚠️ During installation, note your **username** and **password** — you’ll need them later.
+
+####  Create a new database
+
+Open the terminal or pgAdmin and run:
+
+```sql
+CREATE DATABASE TaskToDoDB;
+```
+---
+### 4. Frontend Setup
+
+```bash
+cd frontend
+npm install        
+npm run dev        
+```
+##### Start the frontend dev server, runs on http://localhost:5173
+---
 
 ### ⚙️ Prerequisites
 
@@ -55,9 +70,8 @@ Make sure the following are installed on your system before running the project:
 - [npm](https://www.npmjs.com/) (v9 or later)
 - [Python](https://www.python.org/) (v3.10+ recommended)
 - [Git](https://git-scm.com/)
-- [PostgreSQL](https://www.postgresql.org/) (make sure it's running and accessible)
-  
 ---
+
 ## UI Libraries Used
 
 This project uses the following UI libraries:

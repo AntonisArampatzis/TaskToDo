@@ -26,7 +26,7 @@ cd frontend
 npm install        
 npm run dev        
 ```
-##### Start the frontend dev server, runs on http://localhost:5173.
+##### Start the frontend dev server, runs on http://localhost:5173
 ---
 ### 3. Backend Setup
 
@@ -56,6 +56,20 @@ Make sure the following are installed on your system before running the project:
 - [Python](https://www.python.org/) (v3.10+ recommended)
 - [Git](https://git-scm.com/)
 - [PostgreSQL](https://www.postgresql.org/) (make sure it's running and accessible)
+  
+---
+## UI Libraries Used
 
+This project uses the following UI libraries:
+
+- [MUI (Material UI)](https://mui.com/)
+
+These are already included in `package.json`.  
+To install them, just run:
+
+```bash
+npm install
+```
+As shown on 2. Frontend setup
 
 

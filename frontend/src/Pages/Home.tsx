@@ -49,16 +49,18 @@ export default function Home() {
       );
       console.log("Posting task...waiting response");
       console.log(response.data.message);
-      setMessage("Task Added");
       setTask("");
+      setMessage(response.data.message);
       setTimeout(() => {
         fetchTasks();
       }, 1500);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response?.status, error.message);
+        setMessage(error.response?.data.error);
       } else {
         console.error("Unexpected error:", error);
+        setMessage("Unknown error");
       }
     }
   };
@@ -87,11 +89,12 @@ export default function Home() {
       >
         <Typography
           variant="h4"
-          color="common.white"
+          color="#15616d"
           fontWeight={800}
           textAlign="center"
+          fontStyle="italic"
         >
-          TO DO TASK APP
+          TASK TRACKER
         </Typography>
 
         {/* Form box */}
@@ -101,7 +104,7 @@ export default function Home() {
             maxWidth: "100%",
             borderRadius: 3,
             boxShadow: 3,
-            bgcolor: "background.paper",
+            bgcolor: "#f7fff7",
             p: { xs: 2, md: 4 },
             display: "flex",
             flexDirection: "column",
@@ -122,7 +125,7 @@ export default function Home() {
             maxWidth: "100%",
             borderRadius: 3,
             boxShadow: 3,
-            bgcolor: "background.paper",
+            bgcolor: "#f7fff7",
             p: { xs: 2, md: 4 },
             display: "flex",
             flexDirection: "column",

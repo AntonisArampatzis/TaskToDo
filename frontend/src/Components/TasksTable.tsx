@@ -30,14 +30,17 @@ function TasksTable({
       );
       console.log("deleting task...waiting response");
       console.log(response.data.message);
+      setMessage(response.data.message);
       setAllTasks((prevTasks) =>
         prevTasks.filter((task) => task.id !== taskId)
       );
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response?.status, error.message);
+        setMessage(error.response?.data.error);
       } else {
         console.error("Unexpected error:", error);
+        setMessage("Unexpected error");
       }
     }
   };
@@ -49,15 +52,17 @@ function TasksTable({
       );
       console.log("completing task...waiting response");
       console.log(response.data.message);
-      setMessage("Task Marked as Complete");
+      setMessage(response.data.message);
       setTimeout(() => {
         fetchTasks();
       }, 1500);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response?.status, error.message);
+        setMessage(error.response?.data.error);
       } else {
         console.error("Unexpected error:", error);
+        setMessage("Unexpected error");
       }
     }
   };
@@ -128,6 +133,12 @@ function TasksTable({
             sorting: {
               sortModel: [{ field: "created_at", sort: "asc" }],
             },
+          }}
+          sx={{
+            "& .MuiDataGrid-columnHeader, & .MuiDataGrid-cell": {
+              backgroundColor: "#f7fff7",
+            },
+            backgroundColor: "#f7fff7",
           }}
           pageSizeOptions={[5]}
           // checkboxSelection

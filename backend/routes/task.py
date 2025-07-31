@@ -9,23 +9,24 @@ def add_task():
 
     data = request.get_json()
     if not data:
-        return jsonify({"error":"No data sent to backend"})
+        return jsonify({"error":"No data sent to backend"}),400
+        
     
     try:
         task = data.get('task','').strip()
 
         if not task:
-            return jsonify({"error":"Task field cannot be empty"})
+            return jsonify({"error":"Task field cannot be empty"}),400
         
         new_task = Tasks(task=task)
         db.session.add(new_task)
         db.session.commit()
         
-        return jsonify({"message":"New expense added successfully"}),200
+        return jsonify({"message":"New task added successfully"}),200
     
     except Exception as e:
         print(f"Exception: {e}")
-        return jsonify({"error": "Server error"}), 400
+        return jsonify({"error": "Server error"}), 500
     
 @task_bp.route('/get-tasks', methods=['GET'])
 def get_tasks():
@@ -48,7 +49,7 @@ def get_tasks():
     
     except Exception as e:
         print(f"Exception: {e}")
-        return jsonify({"error": "Server error"}), 400
+        return jsonify({"error": "Server error"}), 500
     
 @task_bp.route('/delete-task/<uuid:taskId>',methods=['DELETE'])
 def delete_task(taskId):

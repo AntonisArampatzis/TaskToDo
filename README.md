@@ -12,41 +12,19 @@
 
 ---
 
-### 1. Clone the Repository
+### 1. Download the code from the Repository
 
-```bash
-git clone https://github.com/AntonisArampatzis/TaskToDo.git
-cd TaskToDo
-```
+
+- Click the Code button (top-right of file list).
+- Choose Download ZIP.
+- Extract the ZIP to your desired folder.
+- Open the folder in VSC.
+
+
 ---
-
-### 2. Backend Setup
-
-```bash
-cd backend
-# Create virtual enviroment - optional but recommended
-python -m venv venv         
-# Activate virtual enviroment
-source venv/bin/activate
-# or  
-venv\Scripts\activate # on Windows
-# Install Python dependencies
-pip install -r requirements.txt
-# Start the backend server
-flask run                   
-      
-```
-##### Runs on http://127.0.0.1:5000
-
-### Create .env in the project root
-```bash
-SECRET_KEY=your_jwt_secret_key
-DATABASE_URL=postgresql://username:password@localhost/db_name
-```
----
-
-### 3. PostgreSQL Setup
+### 2. PostgreSQL Setup
 - [PostgreSQL](https://www.postgresql.org/download/) (v13+ recommended)
+- Use pgAdmin to create :
 - A PostgreSQL user with a password
 - A database created for this project
 > ⚠️ During installation, note your **username** and **password** — you’ll need them later.
@@ -56,13 +34,48 @@ DATABASE_URL=postgresql://username:password@localhost/db_name
 Open the terminal or pgAdmin and run:
 
 ```sql
-CREATE DATABASE TaskToDoDB;
+CREATE DATABASE PersonalExpenseTracker;
+```
+---
+
+### 3. Backend Setup
+
+```bash
+# Open a terminal for backend
+
+# Create virtual enviroment - optional but recommended
+python -m venv venv
+         
+# Activate virtual enviroment
+source venv/bin/activate
+# or  
+venv\Scripts\activate # on Windows
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Create .env in the project root
+SECRET_KEY=your_jwt_secret_key
+DATABASE_URL=postgresql://username:password@localhost/db_name
+
+# Apply database migrations
+flask db upgrade
+
+# Start the backend server
+flask run
+```  
+##### Runs on http://127.0.0.1:5000
+
+### Create .env in the project root
+```bash
+SECRET_KEY=your_jwt_secret_key
+DATABASE_URL=postgresql://username:password@localhost/db_name
 ```
 ---
 ### 4. Frontend Setup
 
 ```bash
-cd ../frontend
+# Open a terminal for frontend
 npm install        
 npm run dev        
 ```

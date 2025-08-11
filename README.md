@@ -66,11 +66,6 @@ flask run
 ```  
 ##### Runs on http://127.0.0.1:5000
 
-### Create .env in the project root
-```bash
-SECRET_KEY=your_jwt_secret_key
-DATABASE_URL=postgresql://username:password@localhost/db_name
-```
 ---
 ### 4. Frontend Setup
 
